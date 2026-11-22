@@ -14,25 +14,36 @@ class CourseListScreen extends StatefulWidget {
 class _CourseListScreenState extends State<CourseListScreen> {
   void _refresh() => setState(() {});
 
+  // Tombol kembali selalu mengarah ke Dashboard.
+  void _backToDashboard() {
+    Navigator.of(context).popUntil((route) => route.isFirst);
+  }
+
   @override
   Widget build(BuildContext context) {
     final courses = StorageService().courses;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0F131C), // surface
+      backgroundColor: const Color(0xFF0B0F19), // surface
       appBar: AppBar(
-        backgroundColor: const Color(0xFF0F131C),
+        backgroundColor: const Color(0xFF0B0F19),
         elevation: 0,
+        scrolledUnderElevation: 0,
+        leading: IconButton(
+          tooltip: 'Kembali ke Dashboard',
+          onPressed: _backToDashboard,
+          icon: const Icon(Icons.arrow_back),
+        ),
         title: const Text(
           'Mata Kuliah',
           style: TextStyle(
-            color: Color(0xFFF1F5F9), // on-surface-primary
-            fontWeight: FontWeight.w700,
-            fontSize: 24, // H1
-            letterSpacing: -0.01,
+            color: Color(0xFFF8FAFC),
+            fontWeight: FontWeight.w800,
+            fontSize: 24,
+            letterSpacing: -0.5,
           ),
         ),
-        iconTheme: const IconThemeData(color: Color(0xFF94A3B8)), // on-surface-secondary
+        iconTheme: const IconThemeData(color: Color(0xFFCBD5E1)),
       ),
       body: courses.isEmpty
           ? Center(
@@ -45,23 +56,35 @@ class _CourseListScreenState extends State<CourseListScreen> {
                     Container(
                       padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF1F2433), // surface-container
+                        gradient: const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [Color(0xFF232C42), Color(0xFF121826)],
+                        ),
                         shape: BoxShape.circle,
-                        border: Border.all(color: const Color(0x14FFFFFF), width: 1),
+                        border: Border.all(color: const Color(0x33A855F7), width: 1),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0x4DA855F7),
+                            blurRadius: 28,
+                            offset: Offset(0, 10),
+                          ),
+                        ],
                       ),
                       child: const Icon(
                         Icons.menu_book_rounded,
-                        size: 48,
-                        color: Color(0xFF94A3B8), // on-surface-secondary
+                        size: 42,
+                        color: Color(0xFFC4B5FD),
                       ),
                     ),
                     const SizedBox(height: 24),
                     const Text(
                       'Belum ada mata kuliah',
                       style: TextStyle(
-                        color: Color(0xFFF1F5F9), // on-surface-primary
-                        fontSize: 18, // H2
-                        fontWeight: FontWeight.w600,
+                        color: Color(0xFFF8FAFC),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: -0.2,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -69,8 +92,9 @@ class _CourseListScreenState extends State<CourseListScreen> {
                       'Tambahkan mata kuliah pertamamu untuk memulai perencanaan.',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Color(0xFF94A3B8), // on-surface-secondary
-                        fontSize: 14, // Body Regular
+                        color: Color(0xFF94A3B8),
+                        fontSize: 13.5,
+                        height: 1.45,
                       ),
                     ),
                     const SizedBox(height: 32), // xl spacing
@@ -94,13 +118,14 @@ class _CourseListScreenState extends State<CourseListScreen> {
                         ),
                       ),
                       style: FilledButton.styleFrom(
-                        backgroundColor: const Color(0xFF6366F1), // indigo-500
-                        foregroundColor: const Color(0xFFF1F5F9),
+                        backgroundColor: const Color(0xFF6366F1),
+                        foregroundColor: const Color(0xFFFFFFFF),
                         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14), // rounded-xl
+                          borderRadius: BorderRadius.circular(16),
                         ),
                         elevation: 0,
+                        shadowColor: const Color(0x666366F1),
                       ),
                     ),
                   ],
@@ -123,4 +148,4 @@ class _CourseListScreenState extends State<CourseListScreen> {
             ),
     );
   }
-}
+}

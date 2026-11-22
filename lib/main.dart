@@ -30,10 +30,19 @@ class AcademicPlannerApp extends StatelessWidget {
       title: 'Academic Planner',
       theme: ThemeData(
         useMaterial3: true,
-        scaffoldBackgroundColor: const Color(0xFFF6F7FB),
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF536DFE)),
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: const Color(0xFF0B0F19),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF6366F1),
+          brightness: Brightness.dark,
+        ),
+        snackBarTheme: const SnackBarThemeData(
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Color(0xFF1B2333),
+          contentTextStyle: TextStyle(color: Color(0xFFF8FAFC)),
+        ),
       ),
       home: const DashboardScreen(),
     );
   }
-}
+}

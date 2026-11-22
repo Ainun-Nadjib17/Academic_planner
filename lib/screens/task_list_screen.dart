@@ -12,6 +12,11 @@ class TaskListScreen extends StatefulWidget {
 
 class _TaskListScreenState extends State<TaskListScreen> {
   void _refresh() => setState(() {});
+
+  // Tombol kembali selalu mengarah ke Dashboard.
+  void _backToDashboard() {
+    Navigator.of(context).popUntil((route) => route.isFirst);
+  }
   String _formatDate(DateTime date) => '${date.day}/${date.month}/${date.year}';
 
   @override
@@ -21,7 +26,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
     final pendingTasks = tasks.length - completedTasks;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0F131C), // surface
+      backgroundColor: const Color(0xFF0B0F19), // surface
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24), // xl spacing
@@ -32,28 +37,47 @@ class _TaskListScreenState extends State<TaskListScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Daftar Tugas',
-                        style: TextStyle(
-                          color: Color(0xFFF1F5F9), // on-surface-primary
-                          fontSize: 24, // H1
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: -0.01,
-                        ),
+                  IconButton.filled(
+                    tooltip: 'Kembali ke Dashboard',
+                    onPressed: _backToDashboard,
+                    icon: const Icon(Icons.arrow_back, size: 22),
+                    style: IconButton.styleFrom(
+                      backgroundColor: const Color(0xFF161E2E),
+                      foregroundColor: const Color(0xFFCBD5E1),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                        side: const BorderSide(color: Color(0x1AFFFFFF)),
                       ),
-                      SizedBox(height: 4),
-                      Text(
-                        'Kelola tugas kuliahmu',
-                        style: TextStyle(
-                          color: Color(0xFF94A3B8), // on-surface-secondary
-                          fontSize: 14, // Body Regular
-                        ),
-                      ),
-                    ],
+                      elevation: 0,
+                    ),
                   ),
+                  const SizedBox(width: 12),
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Daftar Tugas',
+                          style: TextStyle(
+                            color: Color(0xFFF8FAFC),
+                            fontSize: 24,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: -0.5,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Kelola tugas kuliahmu',
+                          style: TextStyle(
+                            color: Color(0xFF94A3B8),
+                            fontSize: 13,
+                            height: 1.4,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 12),
                   IconButton.filled(
                     onPressed: () async {
                       final result = await Navigator.push<Task>(
@@ -69,8 +93,11 @@ class _TaskListScreenState extends State<TaskListScreen> {
                     },
                     icon: const Icon(Icons.add, size: 24),
                     style: IconButton.styleFrom(
-                      backgroundColor: const Color(0xFF1F2433), // surface-container
-                      foregroundColor: const Color(0xFF6366F1), // indigo-500
+                      backgroundColor: const Color(0xFF6366F1),
+                      foregroundColor: const Color(0xFFF8FAFC),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
                       elevation: 0,
                     ),
                   ),
@@ -84,9 +111,20 @@ class _TaskListScreenState extends State<TaskListScreen> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF1F2433), // surface-container
-                  borderRadius: BorderRadius.circular(20), // rounded-2xl
-                  border: Border.all(color: const Color(0x14FFFFFF), width: 1), // subtle border
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [Color(0xFF1A2233), Color(0xFF121826)],
+                  ),
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(color: const Color(0x1AFFFFFF), width: 1),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x59000000),
+                      blurRadius: 24,
+                      offset: Offset(0, 12),
+                    ),
+                  ],
                 ),
                 child: Row(
                   children: [
@@ -105,9 +143,10 @@ class _TaskListScreenState extends State<TaskListScreen> {
               const Text(
                 'Semua Tugas',
                 style: TextStyle(
-                  color: Color(0xFFF1F5F9),
-                  fontSize: 18, // H2
-                  fontWeight: FontWeight.w600,
+                  color: Color(0xFFE2E8F0),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: -0.2,
                 ),
               ),
               const SizedBox(height: 16),
@@ -116,29 +155,42 @@ class _TaskListScreenState extends State<TaskListScreen> {
               Expanded(
                 child: tasks.isEmpty
                     ? Center(
-                        child: Column(
+                        child: SingleChildScrollView(
+                          child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
                               padding: const EdgeInsets.all(24),
                               decoration: BoxDecoration(
-                                color: const Color(0xFF1F2433),
+                                gradient: const LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [Color(0xFF232C42), Color(0xFF121826)],
+                                ),
                                 shape: BoxShape.circle,
-                                border: Border.all(color: const Color(0x14FFFFFF), width: 1),
+                                border: Border.all(color: const Color(0x33F43F5E), width: 1),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Color(0x4DF43F5E),
+                                    blurRadius: 28,
+                                    offset: Offset(0, 10),
+                                  ),
+                                ],
                               ),
                               child: const Icon(
                                 Icons.assignment_outlined,
-                                size: 48,
-                                color: Color(0xFF94A3B8),
+                                size: 42,
+                                color: Color(0xFFFDA4AF),
                               ),
                             ),
                             const SizedBox(height: 24),
                             const Text(
                               'Belum ada tugas',
                               style: TextStyle(
-                                color: Color(0xFFF1F5F9),
+                                color: Color(0xFFF8FAFC),
                                 fontSize: 18,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: -0.2,
                               ),
                             ),
                             const SizedBox(height: 8),
@@ -147,7 +199,8 @@ class _TaskListScreenState extends State<TaskListScreen> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Color(0xFF94A3B8),
-                                fontSize: 14,
+                                fontSize: 13.5,
+                                height: 1.45,
                               ),
                             ),
                             const SizedBox(height: 32),
@@ -174,15 +227,17 @@ class _TaskListScreenState extends State<TaskListScreen> {
                               ),
                               style: FilledButton.styleFrom(
                                 backgroundColor: const Color(0xFF6366F1),
-                                foregroundColor: const Color(0xFFF1F5F9),
+                                foregroundColor: const Color(0xFFFFFFFF),
                                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
                                 elevation: 0,
+                                shadowColor: const Color(0x666366F1),
                               ),
                             ),
                           ],
+                        ),
                         ),
                       )
                     : ListView.builder(
@@ -195,14 +250,29 @@ class _TaskListScreenState extends State<TaskListScreen> {
                             margin: const EdgeInsets.only(bottom: 12),
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF1F2433), // surface-container
-                              borderRadius: BorderRadius.circular(14), // rounded-xl
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: isDone
+                                    ? const [Color(0xFF121826), Color(0xFF0E1420)]
+                                    : const [Color(0xFF1A2233), Color(0xFF121826)],
+                              ),
+                              borderRadius: BorderRadius.circular(18),
                               border: Border.all(
-                                color: isDone 
-                                    ? const Color(0x0AFFFFFF) // Border lebih tipis jika selesai
-                                    : const Color(0x14FFFFFF), // Normal border
+                                color: isDone
+                                    ? const Color(0x14FFFFFF)
+                                    : const Color(0x1F6366F1),
                                 width: 1,
                               ),
+                              boxShadow: isDone
+                                  ? null
+                                  : const [
+                                      BoxShadow(
+                                        color: Color(0x33000000),
+                                        blurRadius: 16,
+                                        offset: Offset(0, 8),
+                                      ),
+                                    ],
                             ),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,10 +284,11 @@ class _TaskListScreenState extends State<TaskListScreen> {
                                   ),
                                   child: Checkbox(
                                     value: isDone,
-                                    activeColor: const Color(0xFF10B981), // emerald-500 for success
-                                    checkColor: const Color(0xFF0F131C),
+                                    activeColor: const Color(0xFF10B981),
+                                    checkColor: const Color(0xFF0B0F19),
+                                    side: const BorderSide(color: Color(0xFF64748B), width: 1.6),
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(6),
+                                      borderRadius: BorderRadius.circular(7),
                                     ),
                                     onChanged: (_) {
                                       StorageService().toggleTask(task);
@@ -235,9 +306,10 @@ class _TaskListScreenState extends State<TaskListScreen> {
                                       Text(
                                         task.title,
                                         style: TextStyle(
-                                          color: isDone ? const Color(0xFF64748B) : const Color(0xFFF1F5F9),
+                                          color: isDone ? const Color(0xFF64748B) : const Color(0xFFF8FAFC),
                                           fontWeight: FontWeight.w700,
                                           fontSize: 16,
+                                          letterSpacing: -0.2,
                                           decoration: isDone ? TextDecoration.lineThrough : null,
                                         ),
                                       ),
@@ -331,20 +403,20 @@ class _TaskListScreenState extends State<TaskListScreen> {
           Text(
             value,
             style: TextStyle(
-              fontSize: 24, // Metric size
+              fontSize: 26,
               color: valueColor,
               fontWeight: FontWeight.w800,
-              letterSpacing: -0.02,
+              letterSpacing: -0.6,
             ),
           ),
           const SizedBox(height: 4),
           Text(
             label,
             style: const TextStyle(
-              fontSize: 12, // Label size
-              color: Color(0xFF94A3B8), // on-surface-secondary
+              fontSize: 11.5,
+              color: Color(0xFF93A1B8),
               fontWeight: FontWeight.w600,
-              letterSpacing: 0.02,
+              letterSpacing: 0.3,
             ),
           ),
         ],
@@ -355,6 +427,6 @@ class _TaskListScreenState extends State<TaskListScreen> {
   Widget _divider() => Container(
         height: 40,
         width: 1,
-        color: const Color(0x14FFFFFF), // subtle divider
+        color: const Color(0x1AFFFFFF), // subtle divider
       );
-}
+}

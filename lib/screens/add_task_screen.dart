@@ -48,6 +48,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     }
   }
 
+  // Tombol kembali selalu mengarah ke Dashboard.
+  void _backToDashboard() {
+    Navigator.of(context).popUntil((route) => route.isFirst);
+  }
+
   void _saveTask() {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedCourse == null || _selectedDeadline == null) {
@@ -85,20 +90,26 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F131C), // surface
+      backgroundColor: const Color(0xFF0B0F19), // surface
       appBar: AppBar(
-        backgroundColor: const Color(0xFF0F131C),
+        backgroundColor: const Color(0xFF0B0F19),
         elevation: 0,
+        scrolledUnderElevation: 0,
+        leading: IconButton(
+          tooltip: 'Kembali ke Dashboard',
+          onPressed: _backToDashboard,
+          icon: const Icon(Icons.arrow_back),
+        ),
         title: const Text(
           'Tambah Tugas', 
           style: TextStyle(
-            color: Color(0xFFF1F5F9), // on-surface-primary
-            fontWeight: FontWeight.w700, 
-            fontSize: 24, // H1
-            letterSpacing: -0.01,
+            color: Color(0xFFF8FAFC),
+            fontWeight: FontWeight.w800,
+            fontSize: 22,
+            letterSpacing: -0.5,
           ),
         ),
-        iconTheme: const IconThemeData(color: Color(0xFF94A3B8)), // on-surface-secondary
+        iconTheme: const IconThemeData(color: Color(0xFFCBD5E1)),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16), // xl & lg spacing
@@ -133,17 +144,21 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               _label('Deadline'),
               InkWell(
                 onTap: _selectDeadline,
-                borderRadius: BorderRadius.circular(8), // rounded-lg
+                borderRadius: BorderRadius.circular(14),
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1F2433), // surface-container
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: const Color(0x14FFFFFF), width: 1), // subtle border
+                    gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Color(0xFF1A2233), Color(0xFF121826)],
+                    ),
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0x1AFFFFFF), width: 1),
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.calendar_month, color: Color(0xFF94A3B8), size: 20),
+                      const Icon(Icons.calendar_month, color: Color(0xFF8B9DFF), size: 20),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
@@ -183,7 +198,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               TextFormField(
                 controller: _descriptionController, 
                 maxLines: 4,
-                style: const TextStyle(color: Color(0xFFF1F5F9), fontSize: 14),
+                style: const TextStyle(color: Color(0xFFF8FAFC), fontSize: 14),
                 decoration: _decoration(Icons.note_outlined, hint: 'Detail tugas, instruksi, atau catatan...').copyWith(
                   alignLabelWithHint: true,
                 ),
@@ -206,12 +221,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     ),
                   ),
                   style: FilledButton.styleFrom(
-                    backgroundColor: const Color(0xFF6366F1), // indigo-500
-                    foregroundColor: const Color(0xFFF1F5F9),
+                    backgroundColor: const Color(0xFF6366F1),
+                    foregroundColor: const Color(0xFFFFFFFF),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14), // rounded-xl
+                      borderRadius: BorderRadius.circular(16),
                     ),
                     elevation: 0,
+                    shadowColor: const Color(0x666366F1),
                   ),
                 ),
               ),
@@ -231,10 +247,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       child: Text(
         text,
         style: const TextStyle(
-          color: Color(0xFF94A3B8), // on-surface-secondary
-          fontWeight: FontWeight.w600, // SemiBold
-          fontSize: 12, // Label size
-          letterSpacing: 0.02,
+          color: Color(0xFF93A1B8),
+          fontWeight: FontWeight.w700,
+          fontSize: 12,
+          letterSpacing: 0.5,
         ),
       ),
     );
@@ -263,6 +279,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   }) {
     return DropdownButtonFormField<T>(
       value: value,
+      isExpanded: true,
       style: const TextStyle(color: Color(0xFFF1F5F9), fontSize: 14),
       decoration: _decoration(icon, hint: hint),
       icon: const Icon(Icons.keyboard_arrow_down, color: Color(0xFF94A3B8)),
@@ -276,31 +293,31 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   InputDecoration _decoration(IconData icon, {String? hint}) {
     return InputDecoration(
       hintText: hint, 
-      hintStyle: const TextStyle(color: Color(0xFF64748B)), // on-surface-tertiary
-      prefixIcon: Icon(icon, color: const Color(0xFF94A3B8), size: 20), 
+      hintStyle: const TextStyle(color: Color(0xFF64748B)),
+      prefixIcon: Icon(icon, color: const Color(0xFF8B9DFF), size: 20), 
       filled: true, 
-      fillColor: const Color(0xFF1F2433), // surface-container
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      fillColor: const Color(0xFF141C2B),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8), // rounded-lg
-        borderSide: const BorderSide(color: Color(0x14FFFFFF), width: 1), // rgba(255,255,255,0.08)
+        borderRadius: BorderRadius.circular(14),
+        borderSide: const BorderSide(color: Color(0x1AFFFFFF), width: 1),
       ), 
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8), 
-        borderSide: const BorderSide(color: Color(0x14FFFFFF), width: 1), 
+        borderRadius: BorderRadius.circular(14), 
+        borderSide: const BorderSide(color: Color(0x1AFFFFFF), width: 1), 
       ), 
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8), 
-        borderSide: const BorderSide(color: Color(0xFF6366F1), width: 1.5), // indigo-500 focus
+        borderRadius: BorderRadius.circular(14), 
+        borderSide: const BorderSide(color: Color(0xFF6366F1), width: 1.6), 
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: Color(0xFFF43F5E), width: 1.5), // rose-500 error
+        borderRadius: BorderRadius.circular(14),
+        borderSide: const BorderSide(color: Color(0xFFF43F5E), width: 1.6), 
       ),
       focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: Color(0xFFF43F5E), width: 1.5),
+        borderRadius: BorderRadius.circular(14),
+        borderSide: const BorderSide(color: Color(0xFFF43F5E), width: 1.6),
       ),
     );
   }
-}
+}
